@@ -291,7 +291,7 @@ public class Patroling : MonoBehaviour
         {
             Patrol();
             CheckPlayerInSight();
-            DrawSight();
+            //DrawSight();
         }
         else if (enemyState == EnemyState.Attack)
         {

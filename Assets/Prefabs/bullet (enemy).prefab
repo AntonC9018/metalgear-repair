@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1399747737553181180}
   - component: {fileID: 1399747737553181181}
   - component: {fileID: 967067393278314876}
+  - component: {fileID: 923906054461538174}
   m_Layer: 0
-  m_Name: bullet
+  m_Name: bullet (enemy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f6186225f8763d4295c8291a2554301, type: 2}
+  - {fileID: 2100000, guid: bcc7ec5a143d835438a3adb9cdda8c8c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,7 +89,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399747737553181182}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -102,7 +103,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399747737553181182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d215dc13f36c45044b94011505571f6a, type: 3}
+  m_Script: {fileID: 11500000, guid: f0958ef43ad931a49908f64eba0f4acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  damage: 40
+  speed: 20
+  team: Enemy
+--- !u!54 &923906054461538174
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399747737553181182}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

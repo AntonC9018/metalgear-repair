@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
         if (timeAlive > 5f)
             Destroy(gameObject);
         
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
     }
 
     void OnTriggerEnter(Collider collider) {
@@ -26,6 +26,9 @@ public class Bullet : MonoBehaviour
             enemyHealth.health -= damage;
 
         if (collider.tag != team)
+        {
+            print("Destroyed bullet");
             Destroy(gameObject);
+        }
     }
 }
