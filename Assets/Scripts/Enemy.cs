@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
 
             if (targets.Count == 0) {
                 enemyState = EnemyState.Patrol;
+                gun.keepFiringAt = null;
                 patroling.Continue();
             }
             else {
