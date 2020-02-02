@@ -135,7 +135,7 @@ MonoBehaviour:
   headOffset: {x: 0, y: 0.5, z: 0}
   targetOffset: {x: 0, y: 0.5, z: 0}
   defaultOrientation: {x: 0, y: 0, z: 0}
-  turnSpeed: 10
+  turnSpeed: 60
   points:
   - {fileID: 0}
   - {fileID: 0}

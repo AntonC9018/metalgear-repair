@@ -108,7 +108,7 @@ public class InputController : MonoBehaviour
                 playerInventory.componentCount--;
             } else {
                 playerCharacterControl.MoveCharacter();
-                //playerGun.AimAndFirePlayer();
+                playerGun.AimAndFirePlayer();
             }
     }
 

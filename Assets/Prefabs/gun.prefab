@@ -172,8 +172,8 @@ MonoBehaviour:
   nozzle: {fileID: 224406022188185101}
   bullet: {fileID: 1399747737553181182, guid: 3a39066db9b96724f9ebdb84b06d6aa8, type: 3}
   mainCamera: {fileID: 0}
-  muzzleFlash: {fileID: 0}
-  muzzleFlashTimer: 0
+  muzzleFlash: {fileID: 467638814967011008}
+  muzzleFlashTimer: 0.03
   heightDelta: 1
   keepFiringAt: {fileID: 0}
   fireperiod: 2
@@ -341,6 +341,12 @@ PrefabInstance:
 --- !u!4 &8273131319759159214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6410574494859479664, guid: 37722d4d0f31efd468a211b823f8d752,
+    type: 3}
+  m_PrefabInstance: {fileID: 3037394909815403998}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &467638814967011008 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 3196321626701128478, guid: 37722d4d0f31efd468a211b823f8d752,
     type: 3}
   m_PrefabInstance: {fileID: 3037394909815403998}
   m_PrefabAsset: {fileID: 0}
