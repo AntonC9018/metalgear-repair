@@ -9,8 +9,8 @@ public class InputController : MonoBehaviour
     const int LEFT = 0;
     public GameObject prefab;
 
-    public List<Steering> selectedAgentsSteeringComponents = new List<Steering>(); 
-    public List<Gun> selectedAgentsGuns = new List<Gun>(); 
+    public List<Steering> selectedAgentsSteeringComponents = new List<Steering>();
+    public List<Gun> selectedAgentsGuns = new List<Gun>();
     public GameObject teammatePrefab;
 
     enum SelectionState
@@ -100,17 +100,22 @@ public class InputController : MonoBehaviour
         RaycastHit hit;
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit)) 
-            if (hit.transform.gameObject.tag == "RepairRequired" && playerInventory.componentCount >= 0 && Input.GetMouseButtonDown(0)) {
+        if (Physics.Raycast(ray, out hit))
+            if (hit.transform.gameObject.tag == "RepairRequired" && playerInventory.componentCount >= 0 && Input.GetMouseButtonDown(0))
+            {
                 var position = hit.transform.position + Vector3.up;
                 Destroy(hit.transform.gameObject);
                 Instantiate(teammatePrefab, position, Quaternion.identity);
                 playerInventory.componentCount--;
-            } else {
+            }
+            else
+            {
                 playerCharacterControl.MoveCharacter();
                 playerGun.AimAndFirePlayer();
             }
     }
+
+    public GameObject obj;
 
     // Update is called once per frame
     void UnitController()
@@ -126,14 +131,29 @@ public class InputController : MonoBehaviour
             }
             else
             {
-                // TODO: draw the green selection thing
+                //RaycastHit hitStart;
+                //RaycastHit hitEnd;
+
+
+                //bool hit1 = Physics.Raycast(selectionStartRay, out hitStart);
+                //bool hit2 = Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitEnd);
+
+                //if (hit1 && hit2)
+                //{
+                //    Vector3 a = hitStart.point;
+                //    Vector3 b = hitEnd.point;
+                //    obj.transform.position = new Vector3((a.x + b.x) / 2, a.y + 1, (a.z + b.z) / 2);
+                //    obj.transform.localScale = new Vector3(Mathf.Abs(a.x - b.x), 10, Mathf.Abs(a.z - b.z));
+                //}
+
             }
         }
 
         else if (Input.GetMouseButtonUp(LEFT))
         {
 
-            foreach (var selectedAgentSteeringComponent in selectedAgentsSteeringComponents) {
+            foreach (var selectedAgentSteeringComponent in selectedAgentsSteeringComponents)
+            {
                 selectedAgentSteeringComponent.BeDeselected();
             }
 
@@ -141,15 +161,16 @@ public class InputController : MonoBehaviour
             {
                 //var selectionStartPoint = 
                 var selectionEndRay = camera.ScreenPointToRay(Input.mousePosition);
-                selectedAgentsSteeringComponents = 
+                selectedAgentsSteeringComponents =
                     GetUnitsInSelectionBox(selectionStartRay, selectionEndRay);
                 selectionState = SelectionState.None;
+                obj.transform.position = new Vector3(10000, 0, 10000);
             }
         }
 
         if (Input.GetMouseButtonDown(RIGHT) && selectionState == SelectionState.None)
         {
-            
+
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             bool didHit = Physics.Raycast(ray, out hit);
@@ -158,7 +179,7 @@ public class InputController : MonoBehaviour
             {
                 foreach (var steeringAgent in selectedAgentsSteeringComponents)
                 {
-                    if (steeringAgent)
+                    if (steeringAgent != null)
                     {
                         if (hit.transform.gameObject.tag == "Enemy")
                         {
@@ -169,7 +190,7 @@ public class InputController : MonoBehaviour
                             steeringAgent.MoveTo(hit.point);
                         }
                     }
-                        
+
                 }
             }
         }
@@ -193,12 +214,11 @@ public class InputController : MonoBehaviour
         Instantiate(prefab, hitStart.point, Quaternion.identity);
         Instantiate(prefab, hitEnd.point, Quaternion.identity);
 
-        print("yes");
         //return result;
         float dx = 1.0f;
         float numStepsX = Mathf.Abs((hitStart.point.x - hitEnd.point.x) / dx);
         float numStepsZ = Mathf.Abs((hitStart.point.z - hitEnd.point.z) / dx);
-        
+
 
         for (float i = 0; i <= numStepsX; i++)
         {
@@ -224,7 +244,7 @@ public class InputController : MonoBehaviour
                         character.BeSelected();
                     }
 
-                    Instantiate(prefab, hit.point, Quaternion.identity);
+                    //Instantiate(prefab, hit.point, Quaternion.identity);
                 }
             }
         }
