@@ -47,9 +47,13 @@ MonoBehaviour:
   prefab: {fileID: 5684811102633262304, guid: d1c57791048b59643beac99072bd7172, type: 3}
   selectedAgentsSteeringComponents:
   - {fileID: 0}
+  selectedAgentsGuns: []
+  teammatePrefab: {fileID: 1606335544038137144, guid: ad5bf74ee0e43e343bcf3ee14e6601f9,
+    type: 3}
   playerCamera: {fileID: 0}
   unitCamera: {fileID: 0}
   changeControllerStateKey: 113
+  playerInventory: {fileID: 0}
 --- !u!195 &330861583911870370
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -19,17 +19,20 @@ public class Enemy : MonoBehaviour
 
     public GameObject prefab;
     EnemyState enemyState = EnemyState.Patrol;
+    Gun gun;
 
     // Start is called before the first frame update
     void Start()
     {
         fov = GetComponent<FieldOfView>();
         patroling = GetComponent<Patroling>();
+        gun = GetComponentsInChildren<Gun>()[0];
     }
 
 
     void Update()
     {
+        print(enemyState.ToString());
         if (enemyState == EnemyState.Patrol)
         {
             patroling.Patrol();
@@ -51,12 +54,12 @@ public class Enemy : MonoBehaviour
                 patroling.Continue();
             }
             else {
-            print("Attacking");
+                print("Attacking");
 
-            transform.LookAt(targets[0].transform.position);
-            //fire
+                transform.LookAt(targets[0].transform.position);
+                gun.keepFiringAt = targets[0];
 
-            visiblePlayers = fov.GetVisible();
+                visiblePlayers = fov.GetVisible();
             }
         }
     }

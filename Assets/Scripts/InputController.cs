@@ -11,6 +11,7 @@ public class InputController : MonoBehaviour
 
     public List<Steering> selectedAgentsSteeringComponents = new List<Steering>(); 
     public List<Gun> selectedAgentsGuns = new List<Gun>(); 
+    public GameObject teammatePrefab;
 
     enum SelectionState
     {
@@ -39,6 +40,7 @@ public class InputController : MonoBehaviour
     private UnitCamMovement unitCameraController;
 
     public KeyCode changeControllerStateKey;
+    public Inventory playerInventory;
 
 
     // Start is called before the first frame update
@@ -95,8 +97,19 @@ public class InputController : MonoBehaviour
 
     void PlayerController()
     {
-        playerCharacterControl.MoveCharacter();
-        playerGun.AimAndFirePlayer();
+        RaycastHit hit;
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit)) 
+            if (hit.transform.gameObject.tag == "RepairRequired" && playerInventory.componentCount >= 0 && Input.GetMouseButtonDown(0)) {
+                var position = hit.transform.position + Vector3.up;
+                Destroy(hit.transform.gameObject);
+                Instantiate(teammatePrefab, position, Quaternion.identity);
+                playerInventory.componentCount--;
+            } else {
+                playerCharacterControl.MoveCharacter();
+                //playerGun.AimAndFirePlayer();
+            }
     }
 
     // Update is called once per frame
