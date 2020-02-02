@@ -13,7 +13,6 @@ public class CharacterControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        print("called");
         charControl = GetComponent<CharacterController>();
     }
 

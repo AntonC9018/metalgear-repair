@@ -21,7 +21,8 @@ public class InputController : MonoBehaviour
         Player,
         Unit
     }
-    
+
+    private Vector3 selectionStartMousePosition;
     private SelectionState selectionState = SelectionState.None;
     private Ray selectionStartRay;
 
@@ -40,7 +41,7 @@ public class InputController : MonoBehaviour
     {
         currentControllerState = ControllerState.Player;
         playerCharacterControl =
-            FindObjectOfType<CharacterControl>();
+            GameObject.FindGameObjectsWithTag("PlayerManager")[0].GetComponent<CharacterControl>();
         playerCameraController =
             playerCamera.GetComponent<PlayerCamMovement>();
         unitCameraController =
@@ -55,15 +56,15 @@ public class InputController : MonoBehaviour
         {
             if (currentControllerState == ControllerState.Player)
             {
-                unitCamera.enabled = false;
-                playerCamera.enabled = true;
+                unitCamera.enabled = true;
+                playerCamera.enabled = false;
                 selectionState = SelectionState.None;
                 currentControllerState = ControllerState.Unit;
             }
             else
             {
-                unitCamera.enabled = true;
-                playerCamera.enabled = false;
+                unitCamera.enabled = false;
+                playerCamera.enabled = true;
                 selectionState = SelectionState.None;
                 currentControllerState = ControllerState.Player;
             }
@@ -93,11 +94,12 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void UnitController()
     {
-        var camera = currentControllerState == ControllerState.Player ? playerCamera : unitCamera;
+        var camera = unitCamera;
         if (Input.GetMouseButtonDown(LEFT))
         {
             if (selectionState == SelectionState.None)
             {
+                selectionStartMousePosition = Input.mousePosition;
                 selectionStartRay = camera.ScreenPointToRay(Input.mousePosition);
                 selectionState = SelectionState.Selecting;
             }
@@ -116,6 +118,7 @@ public class InputController : MonoBehaviour
 
             if (selectionState == SelectionState.Selecting)
             {
+                //var selectionStartPoint = 
                 var selectionEndRay = camera.ScreenPointToRay(Input.mousePosition);
                 selectedAgentsSteeringComponents = 
                     GetUnitsInSelectionBox(selectionStartRay, selectionEndRay);
@@ -148,12 +151,20 @@ public class InputController : MonoBehaviour
     {
         List<Steering> result = new List<Steering>();
 
-        Vector3 currentOrigin = start.origin;
-        Vector3 currentDirection = start.direction;
+        RaycastHit hitStart;
+        RaycastHit hitEnd;
 
-        float dx = 0.015f;
-        float numStepsX = Mathf.Abs((end.origin.x - start.origin.x) / dx);
-        float numStepsZ = Mathf.Abs((end.origin.z - start.origin.z) / dx);
+        if (!Physics.Raycast(start, out hitStart)) return result;
+        if (!Physics.Raycast(end, out hitEnd)) return result;
+
+        Instantiate(prefab, hitStart.point, Quaternion.identity);
+        Instantiate(prefab, hitEnd.point, Quaternion.identity);
+
+        print("yes");
+        //return result;
+        float dx = 1.0f;
+        float numStepsX = Mathf.Abs((hitStart.point.x - hitEnd.point.x) / dx);
+        float numStepsZ = Mathf.Abs((hitStart.point.z - hitEnd.point.z) / dx);
         
 
         for (float i = 0; i <= numStepsX; i++)
@@ -162,15 +173,12 @@ public class InputController : MonoBehaviour
             {
                 float percStartX = i / numStepsX;
                 float percStartZ = j / numStepsZ;
-                float x = Lerp(percStartX, start.origin.x, end.origin.x);
-                float y = Lerp(percStartX, start.origin.y, end.origin.y);
-                float z = Lerp(percStartZ, start.origin.z, end.origin.z);
-                float dirx = Lerp(percStartX, start.direction.x, end.direction.x);
-                float diry = Lerp(percStartX, start.direction.y, end.direction.y);
-                float dirz = Lerp(percStartZ, start.direction.z, end.direction.z);
+                float x = Lerp(percStartX, hitStart.point.x, hitEnd.point.x);
+                float y = Lerp(percStartX, hitStart.point.y, hitEnd.point.y) + 5;
+                float z = Lerp(percStartZ, hitStart.point.z, hitEnd.point.z);
 
 
-                Ray ray = new Ray(new Vector3(x, y, z), new Vector3(dirx, diry, dirz));
+                Ray ray = new Ray(new Vector3(x, y, z), Vector3.down);
                 RaycastHit hit;
                 bool didHit = Physics.Raycast(ray, out hit);
 
@@ -183,7 +191,7 @@ public class InputController : MonoBehaviour
                         character.BeSelected();
                     }
 
-                    //Instantiate(prefab, hit.point, Quaternion.identity);
+                    Instantiate(prefab, hit.point, Quaternion.identity);
                 }
             }
         }
