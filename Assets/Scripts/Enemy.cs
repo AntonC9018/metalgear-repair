@@ -12,9 +12,10 @@ public enum EnemyState
 
 public class Enemy : MonoBehaviour
 {
-
+    List<GameObject> visiblePlayers;
     Patroling patroling;
     FieldOfView fov;
+    float escapeRange = 10f;
 
     public GameObject prefab;
     EnemyState enemyState = EnemyState.Patrol;
@@ -32,17 +33,40 @@ public class Enemy : MonoBehaviour
         if (enemyState == EnemyState.Patrol)
         {
             patroling.Patrol();
-            var visibleObjects = fov.GetVisible();
-            if (fov.CheckPlayerInSight(visibleObjects))
+            visiblePlayers = fov.GetVisible();
+            if (fov.CheckPlayerInSight(visiblePlayers))
             {
                 enemyState = EnemyState.Attack;
+
             }
             fov.DrawSight();
         }
         else if (enemyState == EnemyState.Attack)
         {
-            print("Attacking");
-        }
+            patroling.Halt();
+            var targets = FilterPlayers(visiblePlayers);
 
+            if (targets.Count == 0) {
+                enemyState = EnemyState.Patrol;
+                patroling.Continue();
+            }
+            else {
+            print("Attacking");
+
+            transform.LookAt(targets[0].transform.position);
+            //fire
+
+            visiblePlayers = fov.GetVisible();
+            }
+        }
+    }
+
+    List<GameObject> FilterPlayers(List<GameObject> players) {
+        List<GameObject> actualPlayers = new List<GameObject>();
+        foreach(GameObject player in players)
+            if (player != null && player.tag == "Teammate" && (transform.position - player.transform.position).magnitude < escapeRange)
+                actualPlayers.Add(player);
+
+        return(actualPlayers);
     }
 }

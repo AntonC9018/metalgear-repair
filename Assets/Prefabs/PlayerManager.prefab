@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5774292998720701716}
   - component: {fileID: 5774292998720701718}
   - component: {fileID: 5774292998720701717}
-  - component: {fileID: 5774292998720701723}
+  - component: {fileID: 5378304897717522192}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -84,7 +84,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5774292998720701719}
   m_Enabled: 1
---- !u!114 &5774292998720701723
+--- !u!114 &5378304897717522192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,13 +93,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5774292998720701719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb1ece535122efa4e83ee97904a4666b, type: 3}
+  m_Script: {fileID: 11500000, guid: e40ac5d5cf85a6d4a97384ea2949b765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camPosDelta: {x: 0, y: 10, z: -10}
-  movementMultiplier: 5
-  camToMouseMultiplier: 50
-  playerTransform: {fileID: 5774292998794923429}
+  movementMultiplier: 0
+  camToMouseMultiplier: 20
 --- !u!1 &5774292998794923430
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1991ef94eaa54f47a461f8e9d6e813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  charControl: {fileID: 0}
+  characterSpeed: 5
   playerObject: {fileID: 5774292999319211747}
   mainCamera: {fileID: 5774292998720701718}
 --- !u!143 &5774292998794923428
@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 5774292999319211745}
   - component: {fileID: 5774292999319211746}
   - component: {fileID: 5774292999319211748}
+  - component: {fileID: 2610657370695476698}
   m_Layer: 0
   m_Name: Player
   m_TagString: Teammate
@@ -317,7 +318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1991ef94eaa54f47a461f8e9d6e813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  charControl: {fileID: 0}
+  characterSpeed: 0
   playerObject: {fileID: 0}
   mainCamera: {fileID: 0}
 --- !u!208 &5774292999319211748
@@ -336,6 +338,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &2610657370695476698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774292999319211747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c10e0f1c955b641a0e772230119f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  componentCount: 0
 --- !u!1001 &7284994355854891279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -347,6 +362,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 5774292998720701718}
+    - target: {fileID: 1826607972, guid: 518c5b176d5f34d4eb344fbfd02dcc4b, type: 3}
+      propertyPath: muzzleFlash
+      value: 
+      objectReference: {fileID: 7161880929831473103}
     - target: {fileID: 224406023259532884, guid: 518c5b176d5f34d4eb344fbfd02dcc4b,
         type: 3}
       propertyPath: m_Name
@@ -407,11 +426,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 467638814967011008, guid: 518c5b176d5f34d4eb344fbfd02dcc4b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 518c5b176d5f34d4eb344fbfd02dcc4b, type: 3}
 --- !u!4 &7351070663867856730 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 224406023259532885, guid: 518c5b176d5f34d4eb344fbfd02dcc4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7284994355854891279}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &7161880929831473103 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 467638814967011008, guid: 518c5b176d5f34d4eb344fbfd02dcc4b,
     type: 3}
   m_PrefabInstance: {fileID: 7284994355854891279}
   m_PrefabAsset: {fileID: 0}

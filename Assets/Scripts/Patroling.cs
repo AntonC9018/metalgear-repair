@@ -216,4 +216,21 @@ public class Patroling : MonoBehaviour
             currentState = MoveState.Wait;
         }
     }
+
+    public void Halt() {
+        agent.destination = transform.position;
+    }
+
+    public void Continue() {
+        for (int i = 0; i < steps.Count; i++) {
+            var step = steps[(i + currentStepIndex) % steps.Count];
+            if (step is GoToStep) {
+                agent.destination = ((GoToStep)step).dest;
+                currentStepIndex = (i + currentStepIndex) % steps.Count;
+                currentStep = step;
+                currentState = MoveState.CheckDone;
+                return;
+            }
+        }
+    }
 }

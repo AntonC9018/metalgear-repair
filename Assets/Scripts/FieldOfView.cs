@@ -57,7 +57,7 @@ public class FieldOfView : MonoBehaviour
     {
         foreach (var obj in visibleObjects)
         {
-            if (obj.GetComponent<Steering>() != null)
+            if (obj.tag == "Teammate")
             {
                 return true;
             }
