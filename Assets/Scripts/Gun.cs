@@ -59,13 +59,13 @@ public class Gun : MonoBehaviour
     {
         if (keepFiringAt != null)
         {
+            AimBot(keepFiringAt);
             if (timePassed > fireperiod)
             {
                 timePassed = 0;
                 Fire();
             }
-            fireperiod += Time.deltaTime;
-            AimBot(keepFiringAt);
+            timePassed += Time.deltaTime;
         }
     }
 
