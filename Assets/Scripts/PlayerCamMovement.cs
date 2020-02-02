@@ -11,7 +11,6 @@ public class PlayerCamMovement : MonoBehaviour
     public float movementMultiplier;
     
     public float camToMouseMultiplier;
-    public Transform playerTransform;
 
     Vector3 finalCamOffset;
     

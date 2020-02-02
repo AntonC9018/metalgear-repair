@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapToggle : MonoBehaviour
 {
     // Start is called before the first frame update
-    public CamMovement camMove;
+    //public CamMovement camMove;
     public InputController inputController;
     public bool isZoomedin = true;
     public Camera playerCamera;
