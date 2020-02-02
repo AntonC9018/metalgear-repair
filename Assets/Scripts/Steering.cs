@@ -9,9 +9,11 @@ public class Steering : MonoBehaviour
     public bool selected = true;
     NavMeshAgent agent;
     Gun gun;
+    Renderer rend;
 
     public void Start()
     {
+        rend = GetComponent<Renderer>();
         agent = GetComponent<NavMeshAgent>();
         gun = GetComponentInChildren<Gun>(); //?
     }
@@ -19,15 +21,15 @@ public class Steering : MonoBehaviour
     public void BeSelected()
     {
         selected = true;
+        rend.material.SetFloat("_Outline", 0.2f);
     }
 
     public void BeDeselected()
     {
         selected = false;
+        rend.material.SetFloat("_Outline", 0.0f);
     }
 
-
-    public bool moving = false;
 
     public void Attack(GameObject enemy)
     {

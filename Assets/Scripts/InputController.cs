@@ -164,7 +164,7 @@ public class InputController : MonoBehaviour
                 selectedAgentsSteeringComponents =
                     GetUnitsInSelectionBox(selectionStartRay, selectionEndRay);
                 selectionState = SelectionState.None;
-                obj.transform.position = new Vector3(10000, 0, 10000);
+                //obj.transform.position = new Vector3(10000, 0, 10000);
             }
         }
 
