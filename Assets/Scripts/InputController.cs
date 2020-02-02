@@ -8,7 +8,9 @@ public class InputController : MonoBehaviour
     const int RIGHT = 1;
     const int LEFT = 0;
     public GameObject prefab;
+
     public List<Steering> selectedAgentsSteeringComponents = new List<Steering>(); 
+    public List<Gun> selectedAgentsGuns = new List<Gun>(); 
 
     enum SelectionState
     {
@@ -29,8 +31,11 @@ public class InputController : MonoBehaviour
     public Camera playerCamera;
     public Camera unitCamera;
     private ControllerState currentControllerState;
+
     private CharacterControl playerCharacterControl;
     private PlayerCamMovement playerCameraController;
+    private Gun playerGun;
+
     private UnitCamMovement unitCameraController;
 
     public KeyCode changeControllerStateKey;
@@ -40,14 +45,16 @@ public class InputController : MonoBehaviour
     void Start()
     {
         currentControllerState = ControllerState.Player;
+        var playerManager = GameObject.FindGameObjectsWithTag("PlayerManager")[0];
         playerCharacterControl =
-            GameObject.FindGameObjectsWithTag("PlayerManager")[0].GetComponent<CharacterControl>();
+            playerManager.GetComponent<CharacterControl>();
         playerCameraController =
             playerCamera.GetComponent<PlayerCamMovement>();
         unitCameraController =
             unitCamera.GetComponent<UnitCamMovement>();
         unitCamera.enabled = false;
         playerCamera.enabled = true;
+        playerGun = playerManager.transform.GetComponentInChildren<Gun>();
     }
 
     void Update()
@@ -89,6 +96,7 @@ public class InputController : MonoBehaviour
     void PlayerController()
     {
         playerCharacterControl.MoveCharacter();
+        playerGun.AimAndFirePlayer();
     }
 
     // Update is called once per frame
@@ -128,6 +136,7 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(RIGHT) && selectionState == SelectionState.None)
         {
+            
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             bool didHit = Physics.Raycast(ray, out hit);
@@ -136,7 +145,18 @@ public class InputController : MonoBehaviour
             {
                 foreach (var steeringAgent in selectedAgentsSteeringComponents)
                 {
-                    steeringAgent.MoveTo(hit.point);
+                    if (steeringAgent)
+                    {
+                        if (hit.transform.gameObject.tag == "Enemy")
+                        {
+                            steeringAgent.Attack(hit.transform.gameObject);
+                        }
+                        else
+                        {
+                            steeringAgent.MoveTo(hit.point);
+                        }
+                    }
+                        
                 }
             }
         }

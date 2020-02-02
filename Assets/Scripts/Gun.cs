@@ -12,9 +12,28 @@ public class Gun : MonoBehaviour
     RaycastHit hit;
     public Light muzzleFlash;
     public float muzzleFlashTimer;
+    public float heightDelta = 1f;
+    public GameObject keepFiringAt;
 
-    // Update is called once per frame
-    void Update()
+
+    public void AimAndFirePlayer()
+    {
+        AimPlayer();
+        Fire();
+    }
+
+    public void AimAndFireBot(GameObject target)
+    {
+        AimBot(target);
+        Fire();
+    }
+
+    void AimBot(GameObject target)
+    {
+        transform.LookAt(target.transform.position);
+    }
+
+    void AimPlayer()
     {
         mouseFollowRay = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -22,13 +41,31 @@ public class Gun : MonoBehaviour
             if (hit.collider.tag == "Enemy" || hit.collider.tag == "Teammate")
                 transform.LookAt(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z));
             else
-                transform.LookAt(hit.point);
-
-
+                transform.LookAt(hit.point + Vector3.up * heightDelta);
+    }
+    // Update is called once per frame
+    void Fire()
+    {  
         if (Input.GetMouseButtonDown(0)) {
             Instantiate(bullet, nozzle.transform.position, nozzle.transform.rotation);
             print("Shot");
             StartCoroutine(MuzzleFlash());
+        }
+    }
+
+    private float timePassed = 0;
+    public float fireperiod = 2;
+    void Update()
+    {
+        if (keepFiringAt != null)
+        {
+            if (timePassed > fireperiod)
+            {
+                timePassed = 0;
+                Fire();
+            }
+            fireperiod += Time.deltaTime;
+            AimBot(keepFiringAt);
         }
     }
 

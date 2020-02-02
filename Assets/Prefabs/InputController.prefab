@@ -44,9 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d651b84ae455f48ad07e2835824c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
-  prefab: {fileID: 0}
-  selectedAgentsSteeringComponents: []
+  prefab: {fileID: 5684811102633262304, guid: d1c57791048b59643beac99072bd7172, type: 3}
+  selectedAgentsSteeringComponents:
+  - {fileID: 0}
+  playerCamera: {fileID: 0}
+  unitCamera: {fileID: 0}
+  changeControllerStateKey: 113
 --- !u!195 &330861583911870370
 NavMeshAgent:
   m_ObjectHideFlags: 0
