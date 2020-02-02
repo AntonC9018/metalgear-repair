@@ -19,7 +19,10 @@ public class Gun : MonoBehaviour
     public void AimAndFirePlayer()
     {
         AimPlayer();
-        Fire();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire();
+        }
     }
 
     public void AimAndFireBot(GameObject target)
@@ -46,15 +49,13 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Fire()
     {  
-        if (Input.GetMouseButtonDown(0)) {
-            Instantiate(bullet, nozzle.transform.position, nozzle.transform.rotation);
-            print("Shot");
-            StartCoroutine(MuzzleFlash());
-        }
+        Instantiate(bullet, nozzle.transform.position, nozzle.transform.rotation);
+        StartCoroutine(MuzzleFlash());
     }
 
     private float timePassed = 0;
     public float fireperiod = 2;
+
     void Update()
     {
         if (keepFiringAt != null)

@@ -59,7 +59,6 @@ public class Enemy : MonoBehaviour
 
                 transform.LookAt(targets[0].transform.position);
                 gun.keepFiringAt = targets[0];
-
                 visiblePlayers = fov.GetVisible();
             }
         }
