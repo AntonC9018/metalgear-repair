@@ -174,8 +174,8 @@ public class Patroling : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Patrol()
+
+    public void Patrol()
     {
         float dt = Time.deltaTime;
 
@@ -216,100 +216,4 @@ public class Patroling : MonoBehaviour
             currentState = MoveState.Wait;
         }
     }
-
-
-    public int numRaycastsEachSide = 10;
-    public float angle = 45;
-    public float range = 10;
-
-    RaycastHit RaycastFieldOfVision(float angle, List<GameObject> hits)
-    {
-        var dir = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
-        Ray ray = new Ray();
-        ray.origin = transform.position + headOffset;
-        ray.direction = dir;
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit))
-        {
-            var obj = hit.transform.gameObject;
-            var diff = obj.transform.position - (transform.position + headOffset);
-            var dist = diff.sqrMagnitude;
-
-            if (dist < range * range)
-            {
-                hits.Add(obj);
-            }
-        }
-        return hit;
-    }
-
-    List<GameObject> GetVisible()
-    {
-
-        List<GameObject> result = new List<GameObject>();
-
-        RaycastFieldOfVision(0, result);
-
-        for (int i = 1; i < numRaycastsEachSide; i++)
-        {
-            RaycastFieldOfVision(angle / (float)i, result);
-            RaycastFieldOfVision(-angle / (float)i, result);
-        }
-
-        return result;
-    }
-
-
-    public GameObject prefab;
-    void DrawSight()
-    {
-        {
-            var offset = Quaternion.AngleAxis(45, transform.up) * transform.forward * range;
-            var pos = offset + transform.position + headOffset;
-            Instantiate(prefab, pos, Quaternion.identity);
-        }
-
-        {
-            var offset = Quaternion.AngleAxis(-45, transform.up) * transform.forward * range;
-            var pos = offset + transform.position + headOffset;
-            Instantiate(prefab, pos, Quaternion.identity);
-        }
-    }
-
-
-    enum EnemyState
-    {
-        Patrol,
-        Attack
-    }
-
-    EnemyState enemyState = EnemyState.Patrol;
-
-    void Update()
-    {
-        if (enemyState == EnemyState.Patrol)
-        {
-            Patrol();
-            CheckPlayerInSight();
-            //DrawSight();
-        }
-        else if (enemyState == EnemyState.Attack)
-        {
-            print("Attacking");
-        }
-        
-    }
-
-    void CheckPlayerInSight()
-    {
-        var visibleObjects = GetVisible();
-        foreach (var obj in visibleObjects)
-        {
-            if (obj.GetComponent<Steering>() != null)
-            {
-                enemyState = EnemyState.Attack;
-            }
-        }
-    }
-
 }

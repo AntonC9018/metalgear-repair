@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7325525285322698018}
   - component: {fileID: 7325525285322698021}
   - component: {fileID: 7325525285322698020}
+  - component: {fileID: 345011934934185655}
+  - component: {fileID: 1399807802513662204}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -134,7 +136,31 @@ MonoBehaviour:
   defaultOrientation: {x: 0, y: 0, z: 0}
   turnSpeed: 0
   points: []
+--- !u!114 &345011934934185655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325525285322698023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f075d615003b94641a79ec32934a5f7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+--- !u!114 &1399807802513662204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325525285322698023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f08ef3338305c44cb0c33c6efb8f592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   numRaycastsEachSide: 10
   angle: 45
   range: 10
-  prefab: {fileID: 0}

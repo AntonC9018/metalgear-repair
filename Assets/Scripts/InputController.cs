@@ -7,7 +7,6 @@ public class InputController : MonoBehaviour
 {
     const int RIGHT = 1;
     const int LEFT = 0;
-    public Camera camera;
     public GameObject prefab;
     public List<Steering> selectedAgentsSteeringComponents = new List<Steering>(); 
 
@@ -16,27 +15,89 @@ public class InputController : MonoBehaviour
         Selecting,
         None
     }
+
+    enum ControllerState
+    {
+        Player,
+        Unit
+    }
     
     private SelectionState selectionState = SelectionState.None;
-    private Vector3 selectionStartCoord;
     private Ray selectionStartRay;
+
+    public Camera playerCamera;
+    public Camera unitCamera;
+    private ControllerState currentControllerState;
+    private CharacterControl playerCharacterControl;
+    private PlayerCamMovement playerCameraController;
+    private UnitCamMovement unitCameraController;
+
+    public KeyCode changeControllerStateKey;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentControllerState = ControllerState.Player;
+        playerCharacterControl =
+            FindObjectOfType<CharacterControl>();
+        playerCameraController =
+            playerCamera.GetComponent<PlayerCamMovement>();
+        unitCameraController =
+            unitCamera.GetComponent<UnitCamMovement>();
+        unitCamera.enabled = false;
+        playerCamera.enabled = true;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(changeControllerStateKey)) //Keycode.N
+        {
+            if (currentControllerState == ControllerState.Player)
+            {
+                unitCamera.enabled = false;
+                playerCamera.enabled = true;
+                selectionState = SelectionState.None;
+                currentControllerState = ControllerState.Unit;
+            }
+            else
+            {
+                unitCamera.enabled = true;
+                playerCamera.enabled = false;
+                selectionState = SelectionState.None;
+                currentControllerState = ControllerState.Player;
+            }
+            print("Current State " + currentControllerState.ToString());
+        }
+        if (currentControllerState == ControllerState.Player)
+        {
+            PlayerController();
+            playerCameraController.FollowPlayer();
+        }
+        else if (currentControllerState == ControllerState.Unit)
+        {
+            UnitController();
+            unitCameraController.FreeMovement();
+        }
+        else
+        {
+            print("No State");
+        }
+    }
+
+    void PlayerController()
+    {
+        playerCharacterControl.MoveCharacter();
     }
 
     // Update is called once per frame
-    void Update()
+    void UnitController()
     {
+        var camera = currentControllerState == ControllerState.Player ? playerCamera : unitCamera;
         if (Input.GetMouseButtonDown(LEFT))
         {
-            print("LEFT PUSHED");
             if (selectionState == SelectionState.None)
             {
-                selectionStartCoord = Input.mousePosition;
                 selectionStartRay = camera.ScreenPointToRay(Input.mousePosition);
                 selectionState = SelectionState.Selecting;
             }
@@ -48,7 +109,6 @@ public class InputController : MonoBehaviour
 
         else if (Input.GetMouseButtonUp(LEFT))
         {
-            print("LEFT Released");
 
             foreach (var selectedAgentSteeringComponent in selectedAgentsSteeringComponents) {
                 selectedAgentSteeringComponent.BeDeselected();

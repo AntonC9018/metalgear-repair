@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamMovement : MonoBehaviour
+public class PlayerCamMovement : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -14,6 +14,7 @@ public class CamMovement : MonoBehaviour
     public Transform playerTransform;
 
     Vector3 finalCamOffset;
+    
 
 
     void Start()
@@ -22,19 +23,23 @@ public class CamMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void FollowPlayer()
     {
         movementAxisInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
         finalCamOffset = camPosDelta;
 
         if (Input.GetMouseButton(1))
-            finalCamOffset += new Vector3 ((Input.mousePosition.x - Screen.width/2)/Screen.width, 0f, (Input.mousePosition.y - Screen.height/2)/Screen.height) * camToMouseMultiplier;
-        else
-            finalCamOffset += movementAxisInput * movementMultiplier;
+        {
+            var x = (Input.mousePosition.x - Screen.width / 2) / Screen.width;
+            var z = (Input.mousePosition.y - Screen.height / 2) / Screen.height;
+            finalCamOffset += new Vector3(x, 0f, z) * camToMouseMultiplier;
+        }
+            
+        //else
+            //finalCamOffset += movementAxisInput * movementMultiplier;
         
         transform.localPosition = finalCamOffset;
     }
-
 
 }
